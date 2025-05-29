@@ -1,32 +1,28 @@
-import { 
-  Entity,
-  Column,
-  PrimaryColumn,
-} from "typeorm";
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Pokemon {
-  @PrimaryColumn("varchar")
+  @PrimaryColumn('varchar')
   id!: string;
 
-  @Column("varchar")
+  @Column('varchar')
   name!: string;
 
-  @Column("integer")
+  @Column('integer')
   attack!: number;
 
-  @Column("integer")
+  @Column('integer')
   defense!: number;
 
-  @Column("integer")
+  @Column('integer')
   hp!: number;
 
-  @Column("integer")
+  @Column('integer')
   speed!: number;
 
-  @Column("varchar")
+  @Column('varchar')
   type!: string;
 
-  @Column("varchar")
+  @Column('varchar')
   imageUrl!: string;
 }
