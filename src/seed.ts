@@ -4,6 +4,7 @@ import { seedPokemon} from "./seed/pokemon.seed";
 AppDataSource.initialize()
     .then(async () => {
         await seedPokemon(AppDataSource);
+        console.log('Seed executed successfully');
         process.exit(0)
     })
     .catch((error) => {
@@ -11,4 +12,3 @@ AppDataSource.initialize()
         process.exit(1);
     })
 
-    
