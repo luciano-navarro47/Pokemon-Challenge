@@ -1,5 +1,5 @@
-import { AppDataSource } from "./config/data-source";
-import { seedPokemon} from "./seed/pokemon.seed";
+import { AppDataSource } from "../config/data-source";
+import { seedPokemon} from "./pokemon.seed";
 
 AppDataSource.initialize()
     .then(async () => {

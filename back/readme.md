@@ -39,6 +39,17 @@ npm run migration:run
 
 Esto vuelve a crear la base de datos aplicando las migraciones.
 
+## Cargar datos iniciales (Seed)
+Para poblar la base de datos con la lista de Pokémon que se encuentra en data/pokemon.json se incluye un script de seed en src/seed/seed.ts que se puede ejecutar manualmente.
+
+Ejecutar en la terminal (parado sobre la carpeta back/ del proyecto)
+```
+npm run seed:pokemon
+```
+
+## Levantar el Backend
+Ejecutar en la terminal el siguiente comando: ```npm run start:dev```
+
 ## Endpoints
 
 #### Obtener todos los Pokémons
