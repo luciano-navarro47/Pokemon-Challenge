@@ -2,13 +2,14 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { Pokemon } from '../entities/pokemon.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BattleResult } from 'src/entities/battle-result.entity';
 
 interface BattleRequest {
   pokemon1Id: string;
   pokemon2Id: string;
 }
 
-// Extra
+// Extra - Type System
 const typeEffectiveness: Record<
   string,
   { strongAgainst: string[]; weakAgainst: string[] }
@@ -42,6 +43,8 @@ export class BattleController {
   constructor(
     @InjectRepository(Pokemon)
     private readonly pokemonRepository: Repository<Pokemon>,
+    @InjectRepository(BattleResult)
+    private readonly battleResultRepository: Repository<BattleResult>,
   ) {}
   @Post()
   async battle(@Body() body: BattleRequest) {
@@ -68,6 +71,8 @@ export class BattleController {
       defender = { ...pokemon1 };
     }
 
+    let turns = 0;
+
     while (attacker.hp > 0 && defender.hp > 0) {
       let baseDamage = attacker.attack - defender.defense;
 
@@ -78,15 +83,28 @@ export class BattleController {
 
       defender.hp -= totalDamage;
 
+      turns++;
+
       console.log(
         `${attacker.name} ataca a ${defender.name} causando ${totalDamage} de daño`,
       );
-
+      
+      
       if (defender.hp <= 0) break;
-
+      
       // Swap roles for each turn
       [attacker, defender] = [defender, attacker];
     }
+
+    const battleResult = this.battleResultRepository.create({
+      winner_name: attacker.name,
+      loser_name: defender.name,
+      winner: attacker,
+      loser: defender,
+      turns,
+    });
+
+    await this.battleResultRepository.save(battleResult);
 
     return {
       winner: attacker,
