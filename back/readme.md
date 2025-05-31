@@ -1,4 +1,8 @@
-# Migraciones
+![](assets/Instrucciones.jpg)
+
+
+
+## Migraciones
 
 Este proyecto utiliza TypeORM para manejar migraciones de base de datos.
 
@@ -12,7 +16,7 @@ npm run migration:generate -- -d src/data-source.ts src/migrations/NombreDeLaMig
 
 > Reemplazar NombreDeLaMigracion por un nombre descriptivo (ej. InitPokemon).
 
-## Ejecutar migraciones
+### Ejecutar migraciones
 
 Para ejecutar las migraciones en la base de datos.
 
@@ -22,7 +26,7 @@ npm run migration:run
 
 Esto aplicará los cambios al archivo pokemon.db.
 
-## Borrar y reiniciar migraciones
+### Borrar y reiniciar migraciones
 
 Si necesitás reiniciar el esquema de base de datos desde cero, podés:
 
@@ -35,9 +39,9 @@ npm run migration:run
 
 Esto vuelve a crear la base de datos aplicando las migraciones.
 
-# Endpoints
+## Endpoints
 
-## Obtener todos los Pokémons
+#### Obtener todos los Pokémons
 
 Implementar un endpoint que devuelve al front un arreglo (lista) con todos los pokémones existentes en la base de datos.
 
@@ -46,7 +50,7 @@ Tipo de solicitud: GET
 ```
 http://localhost:3000/pokemon
 ```
-### Ejemplo de respuesta
+#### Ejemplo de respuesta
 ```
 [
     {
@@ -65,7 +69,7 @@ http://localhost:3000/pokemon
 
 - Código de estado HTTP esperado (200 OK)
 
-## Iniciar batalla 1vs1
+### Iniciar batalla 1vs1
 Implementar un endpoint que simula una batalla entre dos Pokémons recibiendo sus IDs por body. El resultado de la batalla se calcula en base a sus stats y efectividad de tipo. Esta batalla concluirá cuando unos de los dos pokémons llegue primero a tener 0 puntos de HP. Al finalizar la batalla se guardará la información del ganador y perdedor en una tabla en la base de datos y le devuelve al front un objeto JSON con los datos del ganador.
 
 Tipo de solicitud: POST
@@ -73,7 +77,7 @@ Tipo de solicitud: POST
 http://localhost:3000/battle
 ```
 
-### Request body
+#### Request body
 
 ```
 {
@@ -85,7 +89,7 @@ http://localhost:3000/battle
 
 + pokemon2Id: ID aleatorio del segundo Pokémon.
 
-### Ejemplo de respuesta
+#### Ejemplo de respuesta
 ```
 {
     "winner": {
