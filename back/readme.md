@@ -10,7 +10,7 @@ Este comando crea un nuevo archivo de migración en la carpeta ```src/migrations
 Dentro de ese archivo se definió la estructura de la tabla y la inserciónde los pokémones.
 
 ```
-npx ts-node ./node_modules/typeorm/cli.js migration:create src/migrations/InitPokemon
+npm run migration:create
 ```
 
 ### Ejecutar migraciones
@@ -20,7 +20,7 @@ Crea o actualiza una tabla en la base de datos llamada ```migrations``` para lle
 Esto aplicará los cambios al archivo pokemon.db
 
 ```
-npx ts-node ./node_modules/typeorm/cli.js migration:run -d src/config/data-source.ts
+npm run migration:run
 ```
 
 ### Generar una nueva migración
@@ -28,7 +28,7 @@ npx ts-node ./node_modules/typeorm/cli.js migration:run -d src/config/data-sourc
 Este comando genera un nuevo archivo de migración con los cambios detectados en las entidades:
 
 ```
-npx ts-node ./node_modules/typeorm/cli.js migration:generate -d src/config/data-source.ts src/migrations/NewName
+npm run migration:generate
 ```
 
 ### Revertir cambios recientes en la DB
@@ -36,7 +36,7 @@ npx ts-node ./node_modules/typeorm/cli.js migration:generate -d src/config/data-
 Este comando deshace la última migración que se aplicó revirtiendo los cambios en la base de datos.
 
 ```
-npx ts-node ./node_modules/typeorm/cli.js migration:revert -d src/config/data-source.ts
+npm run migration:revert
 ```
 
 ## Levantar el Backend con NestJS
