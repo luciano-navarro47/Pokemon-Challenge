@@ -5,7 +5,7 @@ export class Pokemon {
   @PrimaryColumn('varchar')
   id!: string;
 
-  @Column('varchar')
+  @Column("varchar")
   name!: string;
 
   @Column('integer')

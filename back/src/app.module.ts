@@ -10,7 +10,7 @@ import { BattleModule } from './modules/battle.module';
       type: 'sqlite',
       database: 'pokemon.db',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
     PokemonModule,
     BattleModule

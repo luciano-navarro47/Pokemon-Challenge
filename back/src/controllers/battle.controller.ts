@@ -60,15 +60,15 @@ export class BattleController {
     }
 
     // Calculate the battle
-    let attacker = { ...pokemon1 };
-    let defender = { ...pokemon2 };
+    let attacker = {...pokemon1};
+    let defender = {...pokemon2};
 
     if (
       pokemon2.speed > pokemon1.speed ||
       (pokemon2.speed === pokemon1.speed && pokemon2.attack > pokemon1.attack)
     ) {
-      attacker = { ...pokemon2 };
-      defender = { ...pokemon1 };
+      attacker = pokemon2;
+      defender = pokemon1;
     }
 
     let turns = 0;
@@ -102,7 +102,7 @@ export class BattleController {
       winner: attacker,
       loser: defender,
       turns,
-    });
+    }); 
 
     await this.battleResultRepository.save(battleResult);
 
