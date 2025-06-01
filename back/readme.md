@@ -1,61 +1,52 @@
 ![](assets/Instrucciones.jpg)
 
-
-
 ## Migraciones
 
-Este proyecto utiliza TypeORM para manejar migraciones de base de datos.
+Este proyecto utiliza TypeORM para manejar migraciones de base de datos y popular una tabla.
 
-### Generar una nueva migración
+### Crear una nueva migración
 
-Para generar un nuevo archivo de migración con los cambios detectados en las entidades:
+Este comando crea un nuevo archivo de migración en la carpeta ```src/migrations```
+Dentro de ese archivo se definió la estructura de la tabla y la inserciónde los pokémones.
 
 ```
-npm run migration:generate -- -d src/data-source.ts src/migrations/NombreDeLaMigracion
+npx ts-node ./node_modules/typeorm/cli.js migration:create src/migrations/InitPokemon
 ```
-
-> Reemplazar NombreDeLaMigracion por un nombre descriptivo (ej. InitPokemon).
 
 ### Ejecutar migraciones
 
-Para ejecutar las migraciones en la base de datos.
+Este comando aplica las migraciones pendientes en el proyecto.
+Crea o actualiza una tabla en la base de datos llamada ```migrations``` para llevar un registro de las migraciones que se aplicaron.
+Esto aplicará los cambios al archivo pokemon.db
 
 ```
-npm run migration:run
+npx ts-node ./node_modules/typeorm/cli.js migration:run -d src/config/data-source.ts
 ```
 
-Esto aplicará los cambios al archivo pokemon.db.
+### Generar una nueva migración
 
-### Borrar y reiniciar migraciones
-
-Si necesitás reiniciar el esquema de base de datos desde cero, podés:
-
-1. Eliminar manualmente el archivo pokemon.db.
-2. Ejecutar nuevamente:
+Este comando genera un nuevo archivo de migración con los cambios detectados en las entidades:
 
 ```
-npm run migration:run
+npx ts-node ./node_modules/typeorm/cli.js migration:generate -d src/config/data-source.ts src/migrations/NewName
 ```
 
-Esto vuelve a crear la base de datos aplicando las migraciones.
+### Revertir cambios recientes en la DB
 
-## Cargar datos iniciales (Seed)
-Para poblar la base de datos con la lista de Pokémon que se encuentra en data/pokemon.json se incluye un script de seed en src/seed/seed.ts que se puede ejecutar manualmente.
+Este comando deshace la última migración que se aplicó revirtiendo los cambios en la base de datos.
 
-Ejecutar en la terminal (parado sobre la carpeta back/ del proyecto)
 ```
-npm run seed:pokemon
+npx ts-node ./node_modules/typeorm/cli.js migration:revert -d src/config/data-source.ts
 ```
 
-## Levantar el Backend
+## Levantar el Backend con NestJS
 Ejecutar en la terminal el siguiente comando: ```npm run start:dev```
 
 ## Endpoints
 
 #### Obtener todos los Pokémons
 
-Implementar un endpoint que devuelve al front un arreglo (lista) con todos los pokémones existentes en la base de datos.
-
+Implementar un endpoint que devuelve al frontend un arreglo (lista) con todos los pokémones existentes en la base de datos.
 
 Tipo de solicitud: GET 
 ```
