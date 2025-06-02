@@ -1,13 +1,15 @@
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
 
 import { PokemonCard } from "./PokemonCard";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
-type PokemonSelectorProps = {
+type Props = {
   pokemons: Pokemon[];
+  onSelect: (pokemon: Pokemon) => void;
+  selectedId: string | null;
 };
-export default function PokemonSelector({ pokemons }: PokemonSelectorProps) {
+export default function PokemonSelector({ pokemons, onSelect, selectedId }: Props) {
   return (
     <Box
       sx={{
@@ -42,6 +44,8 @@ export default function PokemonSelector({ pokemons }: PokemonSelectorProps) {
             key={pokemon.id}
             name={pokemon.name}
             imageUrl={pokemon.imageUrl}
+            onClick={() => onSelect(pokemon)}
+            selected={pokemon.id === selectedId}
           />
         ))}
       </Box>
