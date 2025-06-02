@@ -1,4 +1,6 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Box, Typography } from "@mui/material";
+
 import { PokemonCard } from "./PokemonCard";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
@@ -8,18 +10,33 @@ type PokemonSelectorProps = {
 export default function PokemonSelector({ pokemons }: PokemonSelectorProps) {
   return (
     <Box
-        display="flex"
-        justifyContent="center"
-        flexWrap="wrap"
-        gap={2}
+      sx={{
+        maxWidth: "1000px",
+        margin: "0 auto",
+        padding: "2rem",
+      }}
     >
-      <Typography variant="h3" align="left" gutterBottom>
-        Battle of Pokémon
-      </Typography>
-      <Typography variant="h4" mb={2}>
-        Select your Pokémon
-      </Typography>
-      <Stack direction="row" spacing={2} overflow="auto">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+        }}
+      >
+        <Typography variant="h4">Battle of Pokémon</Typography>
+        <Typography variant="h5" sx={{ mt: 3 }}>
+          Select your Pokémon
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "1.2rem",
+          mt: 1.5,
+        }}
+      >
         {pokemons.map((pokemon) => (
           <PokemonCard
             key={pokemon.id}
@@ -27,7 +44,7 @@ export default function PokemonSelector({ pokemons }: PokemonSelectorProps) {
             imageUrl={pokemon.imageUrl}
           />
         ))}
-      </Stack>
+      </Box>
     </Box>
   );
 }
