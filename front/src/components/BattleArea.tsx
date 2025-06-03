@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Typography, useTheme, useMediaQuery } from "@mui/material";
 import PokemonBattleCard from "./PokemonBattleCard";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
@@ -15,48 +15,89 @@ export default function BattleArea({
   onStartBattle,
   loadingBattle,
 }: Props) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        gap: 4,
-        mt: 4,
-      }}
-    >
-      <Box
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
-        <PokemonBattleCard pokemon={selected} />
-      </Box>
 
+  const theme = useTheme();
+
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  return (     
+    <Box sx={{ width: "100%", mt: 4, mb: 4 }}>
       <Box
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          flexDirection: isMdUp ? "row" : "column",
+          justifyContent: "center",
+          alignItems: isMdUp ? "stretch" : "center",
+          gap: isMdUp ? 4 : 3,
+        }}
       >
-        <Button
-          variant="contained"
-          color="success"
-          onClick={onStartBattle}
-          disabled={loadingBattle}
-          sx={{ mt: 2 }}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+          }}
         >
-          {loadingBattle ? (
-            <CircularProgress size={24} color="inherit" />
-          ) : (
-            "Start Battle"
-          )}
-        </Button>
-      </Box>
+          <Box sx={{ width: "100%", maxWidth: 350 }}>
+            <PokemonBattleCard pokemon={selected} />
+          </Box>
+        </Box>
 
-      <Box
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
-        {opponent ? (
-            <PokemonBattleCard pokemon={opponent}/>
-        ) : (
-            ""
-        )}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            onClick={onStartBattle}
+            disabled={loadingBattle}
+            sx={{ width: 140, height: 40, backgroundColor: "#377538" }}
+          >
+            {loadingBattle ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Start Battle"
+            )}
+          </Button>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          {opponent ? (
+            <Box sx={{ width: "100%", maxWidth: 350 }}>
+              <PokemonBattleCard pokemon={opponent} />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                width: 300,
+                maxWidth: 350,
+                height: 490,
+                border: "2px dashed #ccc",
+                borderRadius: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="body2" color="textSecondary">
+                Random opponent
+              </Typography>
+            </Box>
+          )}
+        </Box>
       </Box>
     </Box>
   );

@@ -2,25 +2,46 @@ import { Card, CardMedia, CardContent, Typography, Box, LinearProgress} from "@m
 import { styled} from "@mui/material/styles";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
+const MAX_STATS = 5;
+
 const StatRow = styled(Box)({
-    // display: "flex",
-    // alignItems: "center",
-    // justifyContent: "space-between",
     marginBottom: "1rem",
-})
+});
+
+const GreenLinearProgress = styled(LinearProgress)(({ theme }) => ({
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#e0e0e0",
+
+    "& .MuiLinearProgress-bar": {
+        backgroundColor: "#4caf50",
+    },
+}));
 
 type Props = {
     pokemon: Pokemon;
 }
 
 export default function PokemonBattleCard({pokemon}: Props){
+
+    const getStatPercentage = (statValue: number): number => {
+
+        if(MAX_STATS <= 0) return 0;
+        const pct = (statValue / MAX_STATS) * 100;
+        if(pct < 0) return 0;
+        if(pct > 100) return 100;
+        return Math.round(pct);
+    }
+
     return (
-        <Card sx={{width:350, borderRadius: 2, boxShadow: 3}}>
+        <Card 
+          sx={{
+            width: 350, borderRadius: 2, boxShadow: 3}}>
             <CardMedia
                 component="img"
                 image={pokemon.imageUrl}
                 alt={pokemon.name}
-                sx={{height: 220, objectFit: "contain", backgroundColor: "whitea"}}
+                sx={{height: { xs: 180, md: 220 }, objectFit: "contain"}}
             />
 
             <CardContent>
@@ -35,20 +56,22 @@ export default function PokemonBattleCard({pokemon}: Props){
                         { label: "Defense", value: pokemon.defense },
                         { label: "Speed", value: pokemon.speed },
                     ].map((stat) => (
+                        
                         <StatRow key={stat.label}>
-                            <Typography variant="body2">{stat.label}</Typography>
-                            <LinearProgress 
+                            <Typography variant="body2" fontWeight={600}>{stat.label}</Typography>
+                            <GreenLinearProgress 
                                 variant="determinate" 
-                                value={pokemon.hp} 
+                                value={getStatPercentage(stat.value)} 
                                 sx={{
-                                    height: 10, 
+                                    height: 12, 
                                     borderRadius: 5,
                                     backgroundColor: "#e0e0e0",
                                     "& .MuiLinearProgress-bar": {
-                                        backgroundColor: "green",
+                                        backgroundColor: "#99FF33",
                                     }
                                 }}/>
                         </StatRow>
+                        
                     ))}
                 </Box>
             </CardContent>

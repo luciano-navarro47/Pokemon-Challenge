@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Box, Typography } from "@mui/material";
 import PokemonSelector from "./PokemonSelector";
 import BattleArea from "./BattleArea";
@@ -61,27 +61,29 @@ export default function PokemonBattleContainer() {
   if (loadingList) return <div>Loading pokémons...</div>;
 
   return (
-    <Container maxWidth="md" disableGutters>
-      <Box sx={{ mt: 4, mb: 2 }}>
-        <Typography variant="h4">Battle of Pokémon</Typography>
-      </Box>
+    <Container>
+      <Container maxWidth="md" disableGutters>
+        <Box sx={{ mt: 4, mb: 2 }}>
+          <Typography variant="h4">Battle of Pokémon</Typography>
+        </Box>
 
-      <PokemonSelector
-        pokemons={pokemons}
-        onSelect={handleSelectPokemon}
-        selectedId={selectedPokemon ? selectedPokemon.id : null}
-      />
-
-      {battleResult && <BattleResult winnerText={battleResult} />}
-
-      {selectedPokemon && (
-        <BattleArea
-          selected={selectedPokemon}
-          opponent={opponentPokemon}
-          onStartBattle={handleStartBattle}
-          loadingBattle={loadingBattle}
+        <PokemonSelector
+          pokemons={pokemons}
+          onSelect={handleSelectPokemon}
+          selectedId={selectedPokemon ? selectedPokemon.id : null}
         />
-      )}
+
+        {battleResult && <BattleResult winnerText={battleResult} />}
+
+        {selectedPokemon && (
+          <BattleArea
+            selected={selectedPokemon}
+            opponent={opponentPokemon}
+            onStartBattle={handleStartBattle}
+            loadingBattle={loadingBattle}
+          />
+        )}
+      </Container>
     </Container>
   );
 }
