@@ -1,9 +1,20 @@
 import axios from "axios";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
+const HOST = "http://localhost:3000"
+
+export type BattlePayload = {
+  pokemon1Id: string;
+  pokemon2Id: string;
+}
+
+export type BattleResponse = {
+  winner: Pokemon;
+}
+
 export const fetchPokemons = async (): Promise<Pokemon[]> => {
   try {
-    const res = await axios.get<Pokemon[]>("http://localhost:3000/pokemon");
+    const res = await axios.get<Pokemon[]>(`${HOST}/pokemon`);
 
     return res.data;
   } catch (error) {
@@ -11,3 +22,10 @@ export const fetchPokemons = async (): Promise<Pokemon[]> => {
     return [];
   }
 };
+
+
+export const startBattle = async (payload: BattlePayload): Promise<BattleResponse> => {
+    const result = await axios.post<BattleResponse>(`${HOST}/battle`, payload);
+    console.log("RESULTTT: ", result.data)
+    return result.data;
+}
