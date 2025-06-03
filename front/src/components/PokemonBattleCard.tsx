@@ -1,22 +1,12 @@
-import { Card, CardMedia, CardContent, Typography, Box, LinearProgress} from "@mui/material";
 import { styled} from "@mui/material/styles";
+import { Card, CardMedia, CardContent, Typography, Box, LinearProgress, Divider } from "@mui/material";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
-const MAX_STATS = 5;
+const MAX_STATS = 10;
 
 const StatRow = styled(Box)({
-    marginBottom: "1rem",
+    marginBottom: "0.9rem",
 });
-
-const GreenLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#e0e0e0",
-
-    "& .MuiLinearProgress-bar": {
-        backgroundColor: "#4caf50",
-    },
-}));
 
 type Props = {
     pokemon: Pokemon;
@@ -45,11 +35,13 @@ export default function PokemonBattleCard({pokemon}: Props){
             />
 
             <CardContent>
-                <Typography variant="h5" gutterBottom align="left">
+                <Typography variant="h5" gutterBottom align="left" >
                     {pokemon.name}
                 </Typography>
 
-                <Box sx={{ mt: 2 }}>
+                <Divider />
+
+                <Box sx={{ mt: 1.5 }}>
                     {[
                         { label: "HP", value: pokemon.hp },
                         { label: "Attack", value: pokemon.attack },
@@ -58,8 +50,8 @@ export default function PokemonBattleCard({pokemon}: Props){
                     ].map((stat) => (
                         
                         <StatRow key={stat.label}>
-                            <Typography variant="body2" fontWeight={600}>{stat.label}</Typography>
-                            <GreenLinearProgress 
+                            <Typography variant="body2">{stat.label}</Typography>
+                            <LinearProgress 
                                 variant="determinate" 
                                 value={getStatPercentage(stat.value)} 
                                 sx={{
@@ -68,10 +60,10 @@ export default function PokemonBattleCard({pokemon}: Props){
                                     backgroundColor: "#e0e0e0",
                                     "& .MuiLinearProgress-bar": {
                                         backgroundColor: "#99FF33",
-                                    }
-                                }}/>
+                                    },
+                                    boxShadow: 1
+                                }}/>    
                         </StatRow>
-                        
                     ))}
                 </Box>
             </CardContent>
