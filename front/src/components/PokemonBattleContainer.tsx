@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Container, Box, Typography } from "@mui/material";
 import PokemonSelector from "./PokemonSelector";
 import BattleArea from "./BattleArea";
 import BattleResult from "./BattleResult";
@@ -34,8 +34,8 @@ export default function PokemonBattleContainer() {
     setBattleResult(null);
   };
 
-  const handleStartBattle = async() => {
-    if(!selectedPokemon) return;
+  const handleStartBattle = async () => {
+    if (!selectedPokemon) return;
     setLoadingBattle(true);
 
     const filtered = pokemons.filter((p) => p.id !== selectedPokemon.id);
@@ -44,51 +44,44 @@ export default function PokemonBattleContainer() {
     setOpponentPokemon(randomOpponent);
 
     try {
-        const response = await startBattle({
-            pokemon1Id: selectedPokemon.id,
-            pokemon2Id: randomOpponent.id
-        });
+      const response = await startBattle({
+        pokemon1Id: selectedPokemon.id,
+        pokemon2Id: randomOpponent.id,
+      });
 
-        setBattleResult(`${response.winner.name} wins!`)
+      setBattleResult(`${response.winner.name} wins!`);
     } catch (error) {
-        console.error("Error during the start battle: ", error);
-        setBattleResult("Error during battle. Try again.");
+      console.error("Error during the start battle: ", error);
+      setBattleResult("Error during battle. Try again.");
     } finally {
-        setLoadingBattle(false);
+      setLoadingBattle(false);
     }
   };
 
   if (loadingList) return <div>Loading pokémons...</div>;
 
   return (
-    <Box
-        sx={{
-            maxWidth: "1000px",
-            margin: "0 auto",
-            padding: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-        }}
-    >
-        <PokemonSelector 
-            pokemons={pokemons}
-            onSelect={handleSelectPokemon}
-            selectedId={selectedPokemon? selectedPokemon.id : null}
+    <Container maxWidth="md" disableGutters>
+      <Box sx={{ mt: 4, mb: 2 }}>
+        <Typography variant="h4">Battle of Pokémon</Typography>
+      </Box>
+
+      <PokemonSelector
+        pokemons={pokemons}
+        onSelect={handleSelectPokemon}
+        selectedId={selectedPokemon ? selectedPokemon.id : null}
+      />
+
+      {battleResult && <BattleResult winnerText={battleResult} />}
+
+      {selectedPokemon && (
+        <BattleArea
+          selected={selectedPokemon}
+          opponent={opponentPokemon}
+          onStartBattle={handleStartBattle}
+          loadingBattle={loadingBattle}
         />
-        
-        {battleResult && <BattleResult winnerText={battleResult} />}
-
-        {selectedPokemon && (
-            <BattleArea
-                selected={selectedPokemon}
-                opponent={opponentPokemon}
-                onStartBattle={handleStartBattle}
-                loadingBattle={loadingBattle}
-            />
-        )}
-
-    </Box>
-  )
-
+      )}
+    </Container>
+  );
 }

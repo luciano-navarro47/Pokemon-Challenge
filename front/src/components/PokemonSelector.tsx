@@ -1,6 +1,4 @@
-// import { styled } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
-
 import { PokemonCard } from "./PokemonCard";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
@@ -9,44 +7,39 @@ type Props = {
   onSelect: (pokemon: Pokemon) => void;
   selectedId: string | null;
 };
-export default function PokemonSelector({ pokemons, onSelect, selectedId }: Props) {
+export default function PokemonSelector({
+  pokemons,
+  onSelect,
+  selectedId,
+}: Props) {
   return (
-    <Box
-      sx={{
-        maxWidth: "1000px",
-        margin: "0 auto",
-        padding: "2rem",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-        }}
-      >
-        <Typography variant="h4">Battle of Pokémon</Typography>
-        <Typography variant="h5" sx={{ mt: 3 }}>
-          Select your Pokémon
-        </Typography>
+    <Box sx={{ width: "100%", mb: 4 }}>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h5">Select your Pokémon</Typography>
       </Box>
 
       <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1.2rem",
-          mt: 1.5,
-        }}
+        component="div"
+        sx={(theme) => ({
+          display: "grid",
+          gap: theme.spacing(2),
+          gridTemplateColumns: {
+            xs: "repeat(2, 1fr)",
+            sm: "repeat(3, 1fr)",
+            md: "repeat(4, 1fr)",
+            lg: "repeat(5, 1fr)",
+          }
+        })}
       >
         {pokemons.map((pokemon) => (
-          <PokemonCard
-            key={pokemon.id}
-            name={pokemon.name}
-            imageUrl={pokemon.imageUrl}
-            onClick={() => onSelect(pokemon)}
-            selected={pokemon.id === selectedId}
-          />
+          <Box>
+            <PokemonCard
+              name={pokemon.name}
+              imageUrl={pokemon.imageUrl}
+              onClick={() => onSelect(pokemon)}
+              selected={pokemon.id === selectedId}
+            />
+          </Box>
         ))}
       </Box>
     </Box>

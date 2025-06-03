@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -7,13 +6,11 @@ type Props = {
 }
 
 const StyledBattleResult = styled(Box)(({ theme }) => ({
-    padding: theme.spacing(1.5),
+    padding: "10px",
     backgroundColor: "#e4f9fe",
     borderRadius: 5,
-    border: "1.5px solid black",
-    boxShadow: theme.shadows[2], 
-    width: "87.5%",
-    alignSelf: "center"
+    border: "2px solid black",
+    boxShadow: theme.shadows[2],
   }));
 
 export default function BattleResult({ winnerText }: Props){

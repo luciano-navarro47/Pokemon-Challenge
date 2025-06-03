@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import PokemonBattleCard from "./PokemonBattleCard";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
