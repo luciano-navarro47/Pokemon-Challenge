@@ -81,6 +81,8 @@ export default function PokemonBattleContainer() {
             opponent={opponentPokemon}
             onStartBattle={handleStartBattle}
             loadingBattle={loadingBattle}
+            setOpponentPokemon={setOpponentPokemon}
+            setBattleResult={setBattleResult}
           />
         )}
       </Container>

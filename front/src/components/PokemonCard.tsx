@@ -1,8 +1,7 @@
-import * as React from "react";
-import { styled, useThemeProps } from "@mui/material/styles";
-import { Box, Card, CardMedia, Typography, CardActionArea} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Card, CardMedia, Typography, CardActionArea} from "@mui/material";
 
-export interface PokemonCardProps {
+export interface Props {
     name: string;
     imageUrl: string;
     selected?: boolean;
@@ -15,19 +14,9 @@ const StyledCard = styled(Card, {
 })<{ selected?: boolean }>(({ theme, selected }) => ({
     width: 160,
     height: 150,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
     borderRadius: 8,
-    border: selected ? `3px solid ${theme.palette.primary.main}` : '2px solid transparent',
+    border: selected ? `2px solid green` : "2px solid transparent",
     boxShadow: selected ? theme.shadows[4] : theme.shadows[5],
-    transition: 'all 0.2s ease-in-out',
-    cursor: 'pointer',
-    overflow: "hidden",
-    '&:hover': {
-        transform: 'scale(1.02)'
-    }
 }));
 
 const StyledActionArea = styled(CardActionArea)({
@@ -42,8 +31,7 @@ const StyledName = styled(Typography)({
     fontSize: '1.1rem',
 });
 
-export const PokemonCard: React.FC<PokemonCardProps> = (inProps) => {
-    const props = useThemeProps({ props: inProps, name: "PokemonCard" });
+export const PokemonCard: React.FC<Props> = (props) => {
     const { name, imageUrl, selected, onClick } = props;
 
     return (

@@ -32,7 +32,7 @@ export default function PokemonSelector({
         })}
       >
         {pokemons.map((pokemon) => (
-          <Box>
+          <Box key={pokemon.id}>
             <PokemonCard
               name={pokemon.name}
               imageUrl={pokemon.imageUrl}
