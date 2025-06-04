@@ -42,6 +42,13 @@ npm run migration:revert
 ## Levantar el Backend con NestJS
 Ejecutar en la terminal el siguiente comando: ```npm run start:dev```
 
+## Tests
+Ejecutar en la terminal el siguiente comando para testear la funcionalidad de los endpoints  ```pokemon.controller``` y ```battle.controller```
+
+```
+npm run test
+```
+
 ## Endpoints
 
 #### Obtener todos los Pokémons
