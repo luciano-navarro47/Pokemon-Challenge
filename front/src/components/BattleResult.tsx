@@ -15,7 +15,7 @@ const StyledBattleResult = styled(Box)(({ theme }) => ({
 
 export default function BattleResult({ winnerText }: Props) {
   return (
-    <Fade in={winnerText != ""} timeout={500}>
+    <Fade in={winnerText !== ""} timeout={500}>
       <StyledBattleResult>
         <Typography variant="h6" sx={{ marginLeft: 1.5 }}>
           {winnerText}

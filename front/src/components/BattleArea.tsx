@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -7,10 +8,9 @@ import {
   useMediaQuery,
   Fade,
 } from "@mui/material";
+import cardBackImage from "../assets/backcard-pokemon.png";
 import PokemonBattleCard from "./PokemonBattleCard";
 import { Pokemon } from "../interfaces/Pokemon.interface";
-import { useEffect, useRef, useState } from "react";
-import cardBackImage from "../assets/backcard-pokemon.png";
 import { startBattle } from "../services/pokemonService";
 import { isEffective } from "../utils/isEffective";
 
@@ -35,15 +35,16 @@ export default function BattleArea({
   typeEffectiveness,
   setTypeEffectiveness
 }: Props) {
+
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   
   // Countdown
-  const [countdown, setCountdown] = useState<number>(3);
+  const [countdown, setCountdown] = useState<number>(0);
   const [isCounting, setIsCounting] = useState<boolean>(false);
   const timerRef = useRef<number | null>(null);
 
-  const handlerStartClick = () => {
+  const handleStartClick = () => {
     if (isCounting) return;
 
     setTypeEffectiveness("");
@@ -84,12 +85,6 @@ export default function BattleArea({
     timerRef.current = window.setInterval(() => {
       setCountdown((prev) => prev - 1);
     }, 1000);
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
   }, [isCounting]);
 
   useEffect(() => {
@@ -149,7 +144,7 @@ export default function BattleArea({
           <Button
             variant="contained"
             color="success"
-            onClick={handlerStartClick}
+            onClick={handleStartClick}
             disabled={isCounting}
             sx={{ width: 140, height: 40, backgroundColor: "#377538" }}
           >
