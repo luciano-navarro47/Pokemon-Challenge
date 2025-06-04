@@ -1,25 +1,23 @@
-## Available Scripts
+![](./src/assets/Instrucciones.jpg)
 
-In the project directory, you can run:
+## Scripts disponibles
+
+En el directorio `/front` de este proyecto podes ejecutar:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Para ejecutar la app en modo de desarrollo.\
+Abrir [http://localhost:3000](http://localhost:3000) para verlo en el navegador.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Lanzar al ejecutador de pruebas en modo escucha interactiva.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Contruir la app para produccion en la carpeta `build`.\
+Integra React correctamente en el modo de producción y optimiza la compilación para obtener el mejor rendimiento.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+La compilación está minimizada y los nombres de archivo incluyen los hashes.
+¡Tu aplicación está lista para implementarse!
 
