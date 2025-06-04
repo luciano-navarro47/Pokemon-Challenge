@@ -46,9 +46,82 @@ export class InitPokemon1748793029216 implements MigrationInterface {
             type: 'varchar',
             isNullable: false,
           },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
+          },
+          {
+            name: 'deleted_at',
+            type: 'timestamp',
+            isNullable: true,
+          },
         ],
       }),
     );
+
+    await queryRunner.createTable(
+      new Table({
+        name: "battle_result",
+        columns: [
+          {
+            name: "id",
+            type: "integer",
+            isPrimary: true,
+            generationStrategy: "increment"
+          },
+          {
+            name: "winner_name",
+            type: "varchar",
+            isNullable: false
+          },
+          {
+            name: "loser_name",
+            type: "varchar",
+            isNullable: false
+          },
+          {
+            name: "winner_id",
+            type: "varchar",
+            isNullable: false,
+          },
+          {
+            name: "loser_id",
+            type: "varchar",
+            isNullable: false,
+          },
+          {
+            name: "turns",
+            type: "int",
+            isNullable: false
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP',
+          },
+          {
+            name: 'deleted_at',
+            type: 'timestamp',
+            isNullable: true,
+          },
+        ],
+        foreignKeys: [
+          {
+            columnNames: ["winner_id"],
+            referencedTableName: "pokemon",
+            referencedColumnNames: ["id"],
+            onDelete: "CASCADE",
+          },
+          {
+            columnNames: ["loser_id"],
+            referencedTableName: "pokemon",
+            referencedColumnNames: ["id"],
+            onDelete: "CASCADE",
+          }
+        ]
+      })
+    )
 
     await queryRunner.query(`
         INSERT INTO pokemon (id, name, attack, defense, hp, speed, type, imageUrl) 
@@ -63,5 +136,6 @@ export class InitPokemon1748793029216 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('pokemon');
+    await queryRunner.dropTable('battle-result');
   }
 }
