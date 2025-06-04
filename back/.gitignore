@@ -15,6 +15,9 @@ lerna-debug.log*
 # OS
 .DS_Store
 
+# DB
+pokemon.db
+
 # Tests
 /coverage
 /.nyc_output

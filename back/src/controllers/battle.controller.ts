@@ -84,11 +84,6 @@ export class BattleController {
       defender.hp -= totalDamage;
 
       turns++;
-
-      console.log(
-        `${attacker.name} ataca a ${defender.name} causando ${totalDamage} de daño`,
-      );
-      
       
       if (defender.hp <= 0) break;
       
