@@ -1,4 +1,4 @@
-import { Controller, Get,  } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pokemon } from '../entities/pokemon.entity';
@@ -18,7 +18,7 @@ export class PokemonController {
       }
       return pokemons;
     } catch (error) {
-      throw new Error('Error fetching pokemons: ', error);
+      throw new Error(`Error fetching pokemons: ${error}`);
     }
   }
 }

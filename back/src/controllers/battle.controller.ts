@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { Pokemon } from '../entities/pokemon.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BattleResult } from 'src/entities/battle-result.entity';
+import { BattleResult } from '../entities/battle-result.entity';
 
 interface BattleRequest {
   pokemon1Id: string;
