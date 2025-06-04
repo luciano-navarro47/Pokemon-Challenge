@@ -11,27 +11,33 @@ import PokemonBattleCard from "./PokemonBattleCard";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 import { useEffect, useRef, useState } from "react";
 import cardBackImage from "../assets/backcard-pokemon.png";
+import { startBattle } from "../services/pokemonService";
+import { isEffective } from "../utils/isEffective";
 
 type Props = {
   selected: Pokemon;
   opponent: Pokemon | null;
-  onStartBattle: () => void;
-  loadingBattle: boolean;
+  pokemons: Pokemon[];
+  setLoadingBattle: (value: boolean) => void;
   setOpponentPokemon: (pokemon: Pokemon | null) => void;
   setBattleResult: (text: string | null) => void;
+  typeEffectiveness: string;
+  setTypeEffectiveness: (text: string) => void;
 };
 
 export default function BattleArea({
   selected,
   opponent,
-  onStartBattle,
-  loadingBattle,
+  pokemons,
+  setLoadingBattle,
   setOpponentPokemon,
   setBattleResult,
+  typeEffectiveness,
+  setTypeEffectiveness
 }: Props) {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
-
+  
   // Countdown
   const [countdown, setCountdown] = useState<number>(3);
   const [isCounting, setIsCounting] = useState<boolean>(false);
@@ -40,16 +46,40 @@ export default function BattleArea({
   const handlerStartClick = () => {
     if (isCounting) return;
 
+    setTypeEffectiveness("");
+    setLoadingBattle(true);
     setOpponentPokemon(null);
     setBattleResult(null);
     setCountdown(3);
     setIsCounting(true);
   };
 
-  useEffect(() => {
-    if (!isCounting) {
-      return;
+  const handleStartBattle = async () => {
+    if (!selected) return;
+
+    const filtered = pokemons.filter((p) => p.id !== selected.id);
+    const randomIndex = Math.floor(Math.random() * filtered.length);
+    const randomOpponent = filtered[randomIndex];
+    setOpponentPokemon(randomOpponent);
+    setTypeEffectiveness(isEffective(selected, randomOpponent));
+
+    try {
+      const response = await startBattle({
+        pokemon1Id: selected.id,
+        pokemon2Id: randomOpponent.id,
+      });
+
+      setBattleResult(`${response.winner.name} wins!`);
+    } catch (error) {
+      console.error("Error during the start battle: ", error);
+      setBattleResult("Error during battle. Try again.");
+    } finally {
+      setLoadingBattle(false);
     }
+  };
+
+  useEffect(() => {
+    if (!isCounting) return;
 
     timerRef.current = window.setInterval(() => {
       setCountdown((prev) => prev - 1);
@@ -73,9 +103,13 @@ export default function BattleArea({
         timerRef.current = null;
       }
 
-      onStartBattle();
+      handleStartBattle();
     }
-  }, [countdown, isCounting, onStartBattle]);
+  }, [countdown, isCounting, handleStartBattle]);
+
+  useEffect(() => {
+    setTypeEffectiveness("");
+  }, [selected]);
 
   return (
     <Box sx={{ width: "100%", mt: 4, mb: 4 }}>
@@ -97,7 +131,10 @@ export default function BattleArea({
           }}
         >
           <Box sx={{ width: "100%", maxWidth: 350 }}>
-            <PokemonBattleCard pokemon={selected} />
+            <PokemonBattleCard
+              pokemon={selected}
+              typeEffectiveness={typeEffectiveness}
+            />
           </Box>
         </Box>
 
@@ -113,10 +150,10 @@ export default function BattleArea({
             variant="contained"
             color="success"
             onClick={handlerStartClick}
-            disabled={loadingBattle || isCounting}
+            disabled={isCounting}
             sx={{ width: 140, height: 40, backgroundColor: "#377538" }}
           >
-            {loadingBattle || isCounting ? (
+            {isCounting ? (
               <CircularProgress size={24} color="inherit" />
             ) : (
               "Start Battle"
@@ -133,11 +170,15 @@ export default function BattleArea({
           }}
         >
           {opponent ? (
-              <Box sx={{ width: "100%", maxWidth: 350 }}>
-                <PokemonBattleCard pokemon={opponent} />
-              </Box>
+            <Box sx={{ width: "100%", maxWidth: 350 }}>
+              <PokemonBattleCard
+                pokemon={opponent}
+                opponent={true}
+                typeEffectiveness={typeEffectiveness}
+              />
+            </Box>
           ) : isCounting ? (
-            <Fade in={isCounting} timeout={500} >
+            <Fade in={isCounting} timeout={500}>
               <Box
                 sx={{
                   position: "relative",

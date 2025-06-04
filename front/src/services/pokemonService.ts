@@ -23,7 +23,6 @@ export const fetchPokemons = async (): Promise<Pokemon[]> => {
   }
 };
 
-
 export const startBattle = async (payload: BattlePayload): Promise<BattleResponse> => {
     const result = await axios.post<BattleResponse>(`${HOST}/battle`, payload);
     return result.data;

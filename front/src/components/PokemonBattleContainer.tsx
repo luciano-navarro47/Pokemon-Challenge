@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Container, Box, Typography } from "@mui/material";
-import PokemonSelector from "./PokemonSelector";
+
 import BattleArea from "./BattleArea";
 import BattleResult from "./BattleResult";
+import PokemonSelector from "./PokemonSelector";
 import { Pokemon } from "../interfaces/Pokemon.interface";
-import { fetchPokemons, startBattle } from "../services/pokemonService";
+import { fetchPokemons } from "../services/pokemonService";
 
 export default function PokemonBattleContainer() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
@@ -12,9 +13,11 @@ export default function PokemonBattleContainer() {
 
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const [opponentPokemon, setOpponentPokemon] = useState<Pokemon | null>(null);
+
   const [battleResult, setBattleResult] = useState<string | null>(null);
   const [loadingBattle, setLoadingBattle] = useState(false);
 
+  const [typeEffectiveness, setTypeEffectiveness] = useState("");
   useEffect(() => {
     async function fetchedPokes() {
       const pokes = await fetchPokemons();
@@ -29,33 +32,10 @@ export default function PokemonBattleContainer() {
   }, []);
 
   const handleSelectPokemon = (poke: Pokemon) => {
+    setTypeEffectiveness("");
     setSelectedPokemon(poke);
     setOpponentPokemon(null);
     setBattleResult(null);
-  };
-
-  const handleStartBattle = async () => {
-    if (!selectedPokemon) return;
-    setLoadingBattle(true);
-
-    const filtered = pokemons.filter((p) => p.id !== selectedPokemon.id);
-    const randomIndex = Math.floor(Math.random() * filtered.length);
-    const randomOpponent = filtered[randomIndex];
-    setOpponentPokemon(randomOpponent);
-
-    try {
-      const response = await startBattle({
-        pokemon1Id: selectedPokemon.id,
-        pokemon2Id: randomOpponent.id,
-      });
-
-      setBattleResult(`${response.winner.name} wins!`);
-    } catch (error) {
-      console.error("Error during the start battle: ", error);
-      setBattleResult("Error during battle. Try again.");
-    } finally {
-      setLoadingBattle(false);
-    }
   };
 
   if (loadingList) return <div>Loading pokémons...</div>;
@@ -71,6 +51,7 @@ export default function PokemonBattleContainer() {
           pokemons={pokemons}
           onSelect={handleSelectPokemon}
           selectedId={selectedPokemon ? selectedPokemon.id : null}
+          disabled={loadingBattle}
         />
 
         {battleResult && <BattleResult winnerText={battleResult} />}
@@ -79,10 +60,12 @@ export default function PokemonBattleContainer() {
           <BattleArea
             selected={selectedPokemon}
             opponent={opponentPokemon}
-            onStartBattle={handleStartBattle}
-            loadingBattle={loadingBattle}
+            pokemons={pokemons}
+            setLoadingBattle={setLoadingBattle}
             setOpponentPokemon={setOpponentPokemon}
             setBattleResult={setBattleResult}
+            typeEffectiveness={typeEffectiveness}
+            setTypeEffectiveness={setTypeEffectiveness}
           />
         )}
       </Container>

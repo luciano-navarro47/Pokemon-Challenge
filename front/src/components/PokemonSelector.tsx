@@ -6,12 +6,15 @@ type Props = {
   pokemons: Pokemon[];
   onSelect: (pokemon: Pokemon) => void;
   selectedId: string | null;
+  disabled?: boolean;
 };
 export default function PokemonSelector({
   pokemons,
   onSelect,
   selectedId,
+  disabled,
 }: Props) {
+
   return (
     <Box sx={{ width: "100%", mb: 4 }}>
       <Box sx={{ mb: 2 }}>
@@ -28,7 +31,9 @@ export default function PokemonSelector({
             sm: "repeat(3, 1fr)",
             md: "repeat(4, 1fr)",
             lg: "repeat(5, 1fr)",
-          }
+          },
+          pointerEvents: disabled ? "none" : "auto",
+          opacity: disabled ? 0.1 : 1,
         })}
       >
         {pokemons.map((pokemon) => (
@@ -36,7 +41,9 @@ export default function PokemonSelector({
             <PokemonCard
               name={pokemon.name}
               imageUrl={pokemon.imageUrl}
-              onClick={() => onSelect(pokemon)}
+              onClick={() => {
+                if(!disabled) onSelect(pokemon);
+              }}
               selected={pokemon.id === selectedId}
             />
           </Box>
