@@ -7,7 +7,7 @@ Este proyecto utiliza TypeORM para manejar migraciones de base de datos y popula
 ### Crear una nueva migración
 
 Este comando crea un nuevo archivo de migración en la carpeta ```src/migrations```
-Dentro de ese archivo se definió la estructura de la tabla y la inserciónde los pokémones.
+Dentro de ese archivo llamado "InitPokemon" se definió la estructura de la tabla y la inserción de los pokémones.
 
 ```
 npm run migration:create
@@ -17,7 +17,7 @@ npm run migration:create
 
 Este comando aplica las migraciones pendientes en el proyecto.
 Crea o actualiza una tabla en la base de datos llamada ```migrations``` para llevar un registro de las migraciones que se aplicaron.
-Esto aplicará los cambios al archivo pokemon.db
+Esto aplicará los cambios al archivo pokemon.db. Por ejemplo: poblar la base de datos
 
 ```
 npm run migration:run
