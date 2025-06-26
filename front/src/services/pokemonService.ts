@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Pokemon } from "../interfaces/Pokemon.interface";
 
-const HOST = "http://localhost:3000"
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
 export type BattlePayload = {
   pokemon1Id: string;
@@ -14,7 +14,7 @@ export type BattleResponse = {
 
 export const fetchPokemons = async (): Promise<Pokemon[]> => {
   try {
-    const res = await axios.get<Pokemon[]>(`${HOST}/pokemon`);
+    const res = await axios.get<Pokemon[]>(`${REACT_APP_API_URL}/pokemon`);
 
     return res.data;
   } catch (error) {
@@ -24,6 +24,6 @@ export const fetchPokemons = async (): Promise<Pokemon[]> => {
 };
 
 export const startBattle = async (payload: BattlePayload): Promise<BattleResponse> => {
-    const result = await axios.post<BattleResponse>(`${HOST}/battle`, payload);
+    const result = await axios.post<BattleResponse>(`${REACT_APP_API_URL}/battle`, payload);
     return result.data;
 }
